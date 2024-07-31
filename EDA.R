@@ -27,7 +27,7 @@ plot_num(trips, path_out = ".") #export plot
 print(profiling_num(trips)) #runs for all numerical/integer variables to describe their distributions
   
 #Step 4: analyze both numerical and categorical data to see overview of all variables
-trips_description <- describe(trips)
+describe(trips)
 
 ###################################
 ### EDA Analysis on weather.csv ###
@@ -46,11 +46,11 @@ freq(weather, path_out = ".") #export plots to jpeg in current directory
 
 #Step 3: analyze numerical variables 
 plot_num(weather)#returns a plot of numeric data
-plot_num(weather, path_out = ".") #export plot
+plot_num(weather, path_out = "/Users/mausamvk/BTC1855_Midterm/EDA plots") #export plot
 
 print(profiling_num(weather)) #runs for all numerical/integer variables to describe their distributions
 
 #Step 4: analyze both numerical and categorical data to see overview of all variables
-trips_description <- describe(weather)
+describe(weather)
 
 
