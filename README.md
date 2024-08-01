@@ -1,19 +1,14 @@
 # BTC1855_Midterm
 
 Plan
-1. EDA.R --- Perform EDA on trips.csv and weather.csv. Remove NA/missing values. Factor categorical variables.
+1. EDA.R ---> Perform EDA on trips.csv and weather.csv. Remove NA/missing values. Factor categorical variables. Identify and remove cancelled trips. Identify and remove outliers. 
 
-2. Find out number of cancelled trips (starting and ending at same station, duration <3 mins), record trip ids, remove from dataset
+2. Find hours of weekdays where trip volume is highest (i.e. rush hours)
+  2.1. 10 most frequent starting/ending stations during rush hours
 
-3. Identify outliers, record these trip ids, remove from dataset
+3. 10 most frequent start/end stations during weekends
 
-4. Find hours of weekdays where trip volume is highest (i.e. rush hours)
+4. Average utilization of bikes for each month (total time used/total time in month)
 
-  4.1. 10 most frequent starting/ending stations during rush hours
-
-5. 10 most frequent start/end stations during weekends
-
-6. Average utilization of bikes for each month (total time used/total time in month)
-
-7. Create new dataset combiing trip and weather data
-  7.1. create correlation matric cor() and flag highest       correlations for team
+5. Create new dataset combiing trip and weather data
+  5.1. create correlation matric cor() and flag highest       correlations for team
