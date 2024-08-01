@@ -109,3 +109,32 @@ weather1$precipitation_inches <- as.numeric(weather1$precipitation_inches)
 #convert events as.factor
 weather1$events <- as.factor(weather1$events)
 levels(weather1$events)
+
+
+#####################################
+######### Cancelled Trips ###########
+#####################################
+
+# Any trip starting and ending at the same station, with duration less than 3 minutes is likely a 'cancelled trip'. 
+#Find out the number of such trips, record the trip ids for your report and then remove them from the dataset.
+
+attach(trips1)
+duration #seems like duration time is in second not minutes, thus we will use threhsold of 180seconds instead
+
+#storing IDs of cancelled trips that will be removed
+three_mins <- trips1 %>% #filter durations less than 180 seconds
+  filter(duration < 180)
+
+cancelled_trips <- three_mins %>% #filter three_mins dataset for same start and end stations, indicating cancelled
+  filter(start_station_name == end_station_name) 
+
+cancelled_trips$id #ID of all trips that start and end at same station and are less than 3 mins (180 seconds) in duration
+
+#removing cancelled trips
+trips1 <- trips1 %>% #filter durations less than 180 seconds
+  filter(duration < 180)
+
+trips1 <- cancelled_trips <- three_mins %>% #filter three_mins dataset for same start and end stations, indicating cancelled
+  filter(start_station_name == end_station_name) 
+
+trips1 #cancelled trips have been removed
