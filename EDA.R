@@ -11,6 +11,7 @@ install.packages("Hmisc")
 library(funModeling) 
 library(tidyverse) 
 library(Hmisc)
+library(dplyr)
 
 #Step 1: number of observations and variables and view first cases
 glimpse(trips) #here we see all variables are of type int or character
@@ -52,5 +53,29 @@ print(profiling_num(weather)) #runs for all numerical/integer variables to descr
 
 #Step 4: analyze both numerical and categorical data to see overview of all variables
 describe(weather)
+
+
+#####################################
+######### Data Cleaning #############
+#####################################
+
+#Save Trips data in new dataframe, so original is not edited 
+trips1 <- trips
+
+#first convert categorical variables to factors
+summary(trips1)
+
+trips1$start_station_name <- as.factor(trips1$start_station_name)
+levels(trips1$start_station_name)
+
+trips1$end_station_name <- as.factor(trips1$end_station_name)
+levels(trips1$end_station_name)
+
+trips1$subscription_type <- as.factor(trips1$subscription_type)
+levels(trips1$subscription_type)
+
+
+
+
 
 
