@@ -1,7 +1,7 @@
 # BTC1855_Midterm
 
 Plan
-1. EDA on trips.csv and weather.csv
+1. EDA.R --- Perform EDA on trips.csv and weather.csv. Remove NA/missing values. Factor categorical variables.
 
 2. Find out number of cancelled trips (starting and ending at same station, duration <3 mins), record trip ids, remove from dataset
 
