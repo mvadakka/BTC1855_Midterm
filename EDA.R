@@ -132,9 +132,46 @@ cancelled_trips$id #ID of all trips that start and end at same station and are l
 
 #removing cancelled trips
 trips1 <- trips1 %>% #filter durations less than 180 seconds
-  filter(duration < 180)
+  filter(!duration < 180)
 
-trips1 <- cancelled_trips <- three_mins %>% #filter three_mins dataset for same start and end stations, indicating cancelled
-  filter(start_station_name == end_station_name) 
+trips1 <- trips1 %>% #filter three_mins dataset for same start and end stations, indicating cancelled
+  filter(start_station_name != end_station_name) 
 
-trips1 #cancelled trips have been removed
+sum(trips1$duration <180) #check there are no trips shorter than 3 mins
+sum(trips1$start_station_name == trips1$end_station_name) #check there are no start and end stop names that are the same
+
+trips1 #cancelled trips have been removed!
+
+
+#####################################
+############ Outliers ###############
+#####################################
+
+attach(trips1)
+
+#view trips data distributions and other descriptors 
+summary(trips1)
+
+plot(duration) #we see extreme outliers
+boxplot(duration) #can seee here as well
+
+max(duration) #17270400 seconds
+min(duration) #180 seconds
+mean(duration) #961.7805 s
+median(duration) #514 s
+
+## EDIT FROM HERE!
+#order dataframe by length of duration, in decreasing order
+tt <- trips1[order(trips1$duration, decreasing = TRUE),]
+
+#find IQR
+#find IQR for duration.seconds and remove outliers 
+Q1 <- quantile(duration, .25) #25% of data is below 354 s
+
+Q3 <- quantile(duration, .75) #75% is below 732 s
+
+IQR <- IQR(duration) #IQR is 378
+
+testing <- subset(trips1, duration > (Q1 - 1.5*IQR) & duration < (Q3 + 1.5*IQR))
+max(testing$duration) #1298
+
