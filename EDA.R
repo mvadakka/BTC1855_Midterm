@@ -59,10 +59,11 @@ describe(weather)
 ######### Data Cleaning #############
 #####################################
 
+#######Trips Data
 #Save Trips data in new dataframe, so original is not edited 
 trips1 <- trips
 
-#first convert categorical variables to factors
+#convert categorical variables to factors
 summary(trips1)
 
 trips1$start_station_name <- as.factor(trips1$start_station_name)
@@ -74,8 +75,37 @@ levels(trips1$end_station_name)
 trips1$subscription_type <- as.factor(trips1$subscription_type)
 levels(trips1$subscription_type)
 
+##########Weather Data
+#Save weather data in new dataframe, so original is not edits 
+weather1 <- weather
+summary(weather1)
 
+#store IDs of NA/empty values across mex_gust_speed_mph 
+missing_maxgust <- weather1[(is.na(weather1$max_gust_speed_mph) | weather1$max_gust_speed_mph==""), ]
+#remove NA or empty values across mex_gust_speed_mph 
+weather1 <- weather1[!(is.na(weather1$max_gust_speed_mph) | weather1$max_gust_speed_mph==""), ]
 
+#check which variables still have NA/missing values 
+summary(weather1) # max_visibility, mean_visibility, preciptation_inches
 
+#store IDs of NA/empty values across precipitation_inches 
+missing_precipitation <- weather1[(is.na(weather1$precipitation_inches) | weather1$precipitation_inches==""), ]
+#remove NA or empty values across mex_gust_speed_mph 
+weather1 <- weather1[!(is.na(weather1$precipitation_inches) | weather1$precipitation_inches==""), ]
 
+#store IDs of NA/empty values across max_visibility_miles 
+missing_maxvisibility <- weather1[(is.na(weather1$max_visibility_miles) | weather1$max_visibility_miles==""), ]
+#remove NA or empty values across mex_gust_speed_mph 
+weather1 <- weather1[!(is.na(weather1$max_visibility_miles) | weather1$max_visibility_miles==""), ]
 
+#convert Date variable from character to date
+weather1$date 
+library(lubridate)
+weather1$date <- as.Date(weather1$date, "%m/%d/%y") #convert to m/d/y
+
+#convert precipitation)inches to numerical from character
+weather1$precipitation_inches <- as.numeric(weather1$precipitation_inches)
+
+#convert events as.factor
+weather1$events <- as.factor(weather1$events)
+levels(weather1$events)
