@@ -160,18 +160,22 @@ min(duration) #180 seconds
 mean(duration) #961.7805 s
 median(duration) #514 s
 
-## EDIT FROM HERE!
-#order dataframe by length of duration, in decreasing order
-tt <- trips1[order(trips1$duration, decreasing = TRUE),]
 
-#find IQR
-#find IQR for duration.seconds and remove outliers 
+#find IQR for duration and remove outliers 
 Q1 <- quantile(duration, .25) #25% of data is below 354 s
 
 Q3 <- quantile(duration, .75) #75% is below 732 s
 
 IQR <- IQR(duration) #IQR is 378
 
-testing <- subset(trips1, duration > (Q1 - 1.5*IQR) & duration < (Q3 + 1.5*IQR))
-max(testing$duration) #1298
+outliers <- subset(trips1, duration > (Q1 - 1.5*IQR) & duration < (Q3 + 1.5*IQR)) #save outliers to know their IDs
+sum(outliers$duration) #152464967 will be removed 
 
+#remove outliers from trips1
+trips1 <- subset(trips1, duration > (Q1 - 1.5*IQR) & duration < (Q3 + 1.5*IQR))
+
+#trips$duration without outliers
+max(duration) #1298 seconds
+min(duration) #180 seconds
+mean(duration) #534.0878 s
+median(duration) #492 s
