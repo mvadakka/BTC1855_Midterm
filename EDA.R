@@ -178,4 +178,4 @@ trips1 <- subset(trips1, duration > (Q1 - 1.5*IQR) & duration < (Q3 + 1.5*IQR))
 max(duration) #1298 seconds
 min(duration) #180 seconds
 mean(duration) #534.0878 s
-median(duration) #492 s
+median(duration) #492s
