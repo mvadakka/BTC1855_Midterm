@@ -109,3 +109,73 @@ weather1$precipitation_inches <- as.numeric(weather1$precipitation_inches)
 #convert events as.factor
 weather1$events <- as.factor(weather1$events)
 levels(weather1$events)
+
+
+#####################################
+######### Cancelled Trips ###########
+#####################################
+
+# Any trip starting and ending at the same station, with duration less than 3 minutes is likely a 'cancelled trip'. 
+#Find out the number of such trips, record the trip ids for your report and then remove them from the dataset.
+
+attach(trips1)
+duration #seems like duration time is in second not minutes, thus we will use threhsold of 180seconds instead
+
+#storing IDs of cancelled trips that will be removed
+three_mins <- trips1 %>% #filter durations less than 180 seconds
+  filter(duration < 180)
+
+cancelled_trips <- three_mins %>% #filter three_mins dataset for same start and end stations, indicating cancelled
+  filter(start_station_name == end_station_name) 
+
+cancelled_trips$id #ID of all trips that start and end at same station and are less than 3 mins (180 seconds) in duration
+
+#removing cancelled trips
+trips1 <- trips1 %>% #filter durations less than 180 seconds
+  filter(!duration < 180)
+
+trips1 <- trips1 %>% #filter three_mins dataset for same start and end stations, indicating cancelled
+  filter(start_station_name != end_station_name) 
+
+sum(trips1$duration <180) #check there are no trips shorter than 3 mins
+sum(trips1$start_station_name == trips1$end_station_name) #check there are no start and end stop names that are the same
+
+trips1 #cancelled trips have been removed!
+
+
+#####################################
+############ Outliers ###############
+#####################################
+
+attach(trips1)
+
+#view trips data distributions and other descriptors 
+summary(trips1)
+
+plot(duration) #we see extreme outliers
+boxplot(duration) #can seee here as well
+
+max(duration) #17270400 seconds
+min(duration) #180 seconds
+mean(duration) #961.7805 s
+median(duration) #514 s
+
+
+#find IQR for duration and remove outliers 
+Q1 <- quantile(duration, .25) #25% of data is below 354 s
+
+Q3 <- quantile(duration, .75) #75% is below 732 s
+
+IQR <- IQR(duration) #IQR is 378
+
+outliers <- subset(trips1, duration > (Q1 - 1.5*IQR) & duration < (Q3 + 1.5*IQR)) #save outliers to know their IDs
+sum(outliers$duration) #152464967 will be removed 
+
+#remove outliers from trips1
+trips1 <- subset(trips1, duration > (Q1 - 1.5*IQR) & duration < (Q3 + 1.5*IQR))
+
+#trips$duration without outliers
+max(duration) #1298 seconds
+min(duration) #180 seconds
+mean(duration) #534.0878 s
+median(duration) #492s
