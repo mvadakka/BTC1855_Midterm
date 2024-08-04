@@ -1,7 +1,4 @@
 #### Highest volume hours on weekdays
-#highest volume hours on weekdays, so that they can build 'rush hours' into their model (lubridate package is your BFF here). 
-# You can choose the specific approach to take, but you have to find the hours of weekdays where the trip volume is highest. 
-# (e.g. you may try histograms)
 library(lubridate)
 library(dplyr)
 library(ggplot2)
@@ -59,7 +56,7 @@ volume.count <- volume %>% group_by_all() %>% count
 highest.volume <- volume.count[order(volume.count$n, decreasing = TRUE),]
 highest.volume #here we can see largest frequency of trips occurred on hour 9, for weekdays 3,4,2 and 5. Followed by hour 18 and 10. 
 
-#save this as csv 
+#save highest.volume as csv 
 write.csv(highest.volume, "/Users/mausamvk/BTC1855_Midterm/csv/highest_volumehours.csv", row.names=FALSE)
 
 #plot hourly trip usage on weekdays
