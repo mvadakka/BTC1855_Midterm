@@ -98,6 +98,12 @@ missing_maxvisibility <- weather1[(is.na(weather1$max_visibility_miles) | weathe
 #remove NA or empty values across mex_gust_speed_mph 
 weather1 <- weather1[!(is.na(weather1$max_visibility_miles) | weather1$max_visibility_miles==""), ]
 
+#combine all removed weather values in dataframe
+removed.weather <- as.data.frame(rbind(missing_precipitation,missing_maxvisibility))
+
+#export removed weather values to a .csv file
+write.csv(removed.weather, "/Users/mausamvk/BTC1855_Midterm/removed_weather.csv", row.names=FALSE)
+
 #convert Date variable from character to date
 weather1$date 
 library(lubridate)
@@ -168,7 +174,8 @@ Q3 <- quantile(duration, .75) #75% is below 732 s
 
 IQR <- IQR(duration) #IQR is 378
 
-outliers <- subset(trips1, duration > (Q1 - 1.5*IQR) & duration < (Q3 + 1.5*IQR)) #save outliers to know their IDs
+#save outliers
+outliers <- subset(trips1, duration > (Q1 - 1.5*IQR) & duration < (Q3 + 1.5*IQR)) 
 sum(outliers$duration) #152464967 will be removed 
 
 #remove outliers from trips1
@@ -179,3 +186,11 @@ max(duration) #1298 seconds
 min(duration) #180 seconds
 mean(duration) #534.0878 s
 median(duration) #492s
+
+#combine cancelled trips and outliers from trips data
+removed.trips <- rbind(cancelled_trips, outliers)
+removed.trips
+
+#export removed.trips data to csv file
+write.csv(removed.trips, "/Users/mausamvk/BTC1855_Midterm/removed_trips.csv", row.names=FALSE)
+
