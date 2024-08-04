@@ -3,7 +3,8 @@
 1. EDA.R ---> Perform EDA on trips.csv and weather.csv. Remove NA/missing values. Factor categorical variables. Identify and remove cancelled trips. Identify and remove outliers. 
 
 2. Highest_volume.R --->  Find hours of weekdays where trip volume is highest (i.e. rush hours)
-2.1. 10 most frequent starting/ending stations during rush hours
+
+2.1. Rush_hour_wday.R --> Find 10 most frequent starting/ending stations during weekday rush hours
 
 3. 10 most frequent start/end stations during weekends
 
@@ -22,3 +23,4 @@
 - removed.trips: removed cancelled data and outliers from trip.csv
 - Highest_volume.R: Script to determine hours of weekdays where trip volume is highest and plot (Step 2)
 - highest_volumehours.csv: csv file of frequency of trips per hour, per weekday, arranged by greatest frequncy to least
+- Rush_hour_wday.R: 10 most frequent starting/ending stations during weekday rush hour (Step 2.1 in plan)
