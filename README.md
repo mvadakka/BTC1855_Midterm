@@ -12,3 +12,12 @@ Plan
 
 5. Create new dataset combiing trip and weather data
   5.1. create correlation matric cor() and flag highest       correlations for team
+  
+Dictionary of folders:
+- EDA plots - plots generated during EDA process
+- csv - csv files generated across steps
+
+Dictionary of files:
+- EDA.R - EDA R script (Step 1 in Plan)
+- removed.weather - removed missing data from weather.csv, speciffically in the precipitation_inches, max_gust_speed_mph, max_visibility_miles and max_gust_speed_mph columns
+- removed.trips - removed cancelled data and outliers from trip.csv
