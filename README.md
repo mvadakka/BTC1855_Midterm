@@ -6,7 +6,7 @@
 
 2.1. Rush_hour_wday.R --> Find 10 most frequent starting/ending stations during weekday rush hours
 
-3. 10 most frequent start/end stations during weekends
+3. Wknd_10stations.R --> Find 10 most frequent start/end stations during weekends
 
 4. Average utilization of bikes for each month (total time used/total time in month)
 
@@ -24,3 +24,4 @@
 - Highest_volume.R: Script to determine hours of weekdays where trip volume is highest and plot (Step 2)
 - highest_volumehours.csv: csv file of frequency of trips per hour, per weekday, arranged by greatest frequncy to least
 - Rush_hour_wday.R: 10 most frequent starting/ending stations during weekday rush hour (Step 2.1 in plan)
+- Wknd_10stations.R: 10 most frequent start/end stations during weekends (Step 3 in plan)
