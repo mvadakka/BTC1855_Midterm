@@ -4,6 +4,7 @@
 # (e.g. you may try histograms)
 library(lubridate)
 library(dplyr)
+library(ggplot2)
 
 #convert start_date and end_date from characters to date and time - m/d/y, hours:min
 trips1$start.date <- mdy_hm(trips1$start_date)
@@ -38,18 +39,39 @@ weekdays$end.wday <- as.factor(weekdays$end.wday)
 summary(weekdays$start.wday) #here we can see min values are 1, max is 5, and breakdown per day
 summary(weekdays$end.wday)
 
-###work from here to find hours with most trips in weekdays
-#getting hours and minutes from start_date, to see when trip started
-test <- weekdays
+#getting hours and minutes from date in start.date
+weekdays$start.hour <- format(as.POSIXct(weekdays$start.date), format = "%H")
 
-test$start.time <- format(as.POSIXct(weekdays$start_date), format = "%H")
-attach(test)
+#convert hours to numeric
+weekdays$start.hour <- as.numeric(weekdays$start.hour)
 
-#plot histogram of start.times, per weekday
-hourly.plot1 <- ggplot(data = test, aes(start.time, n)) +
-                  geom_line(color = "steelblue", linewidth = 1) +
-                  geom_point(color="steelblue") + 
-                  labs(title = "Highest volume hours on weekdays",
-                       subtitle = "(based on start times of weekday trips)",
-                       y = "Count of trips", x = "Hour") + 
-                  facet_wrap(~ start.wday)
+#then convert hours to factor, so we can see count per hour
+weekdays$start.hour <- as.factor(weekdays$start.hour)
+
+#combine start.hour and start.wday coloumns to create list of volume and day
+volume <- as.data.frame(cbind(weekdays$start.hour, weekdays$start.wday))
+colnames(volume) <- c("Hour", "Weekday")
+
+#group by weekdays, and count instances of trips per hour, per weekday
+volume.count <- volume %>% group_by_all() %>% count
+
+#order volume.count based on highest count of trips to lower, to easily see which hours on what day have largest volume of trips
+highest.volume <- volume.count[order(volume.count$n, decreasing = TRUE),]
+highest.volume #here we can see largest frequency of trips occurred on hour 9, for weekdays 3,4,2 and 5. Followed by hour 18 and 10. 
+
+#save this as csv 
+write.csv(highest.volume, "/Users/mausamvk/BTC1855_Midterm/csv/highest_volumehours.csv", row.names=FALSE)
+
+#plot hourly trip usage on weekdays
+hourly <- ggplot(data = weekdays, aes(x = start.hour)) + 
+      labs(title = "Volume of trips on weekdays per hour",
+      subtitle = "(based on start times of weekday trips)",
+      y = "Count of trips", x = "Hour") + geom_bar(color="white") 
+
+#plot hourly trip usage per day and flip plots sideways
+trip_volume <- hourly + facet_wrap(~ start.wday) + coord_flip()
+
+#save plot
+ggsave(plot = trip_volume, filename = "trip_volume.pdf", path = "/Users/mausamvk/BTC1855_Midterm/Plots")
+
+  
