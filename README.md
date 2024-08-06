@@ -10,8 +10,7 @@
 
 4. Average_Utilization.R ---> Determine average utilization of bikes for each month (total time used/total time in month)
 
-5. Create new dataset combiing trip and weather data
-  5.1. create correlation matric cor() and flag highest correlations for team
+5. weather.trips.R --> Create new dataset combiing trip and weather data. Create correlation matric cor() and flag highest correlations for team
   
 #Dictionary of folders:
 - EDA plots - plots generated during EDA process
@@ -26,3 +25,4 @@
 - Rush_hour_wday.R: 10 most frequent starting/ending stations during weekday rush hour (Step 2.1 in plan)
 - Wknd_10stations.R: 10 most frequent start/end stations during weekends (Step 3 in plan)
 - Average_Utilization.R: average utilization of bikes for each month (total time used/total time in month) (Step 4 in plan)
+- weather.trips.R: steps to creating new dataset combiing trip and weather data, and createing correlation matrix. 
