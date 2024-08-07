@@ -26,3 +26,4 @@
 - Wknd_10stations.R: 10 most frequent start/end stations during weekends (Step 3 in plan)
 - Average_Utilization.R: average utilization of bikes for each month (total time used/total time in a month) (Step 4 in plan)
 - weather.trips.R: steps to creating new dataset combining trip and weather data, and creating a correlation matrix. Flagging highest correlations (Step 5 in plan)
+- Midterm_Report.docx: Report with summary of data, removed values, and findings
