@@ -36,3 +36,5 @@ colnames(utilization) <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
 #divide each duration by 2629756.8s, multiple by 100, to get percent of avergae utilization per month
 avg.utilization <- (utilization/2629756.8)*100
 avg.utilization #avg utilization per month, based on total time in month 
+# SK (Points taken) Does an average utilization of over 300% make sense to you? How are bikes used
+# in a month for longer than the month? Examine all findings with a critical eye before reporting.

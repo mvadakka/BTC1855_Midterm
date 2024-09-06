@@ -8,10 +8,13 @@
 #using prepped weather1 and trips1 dataframes
 #prep dates for both dataframes into same y/m/d format
 weather1$date <- mdy(weather1$date)
+# SK (Points taken) trips1 does not have a column named 'date'
 trips1$date <- ymd(trips1$date)
 
 #load stations data
-stations <- read.csv("/Users/mausamvk/Desktop/BTC1855/Midterm/station.csv", header = TRUE)
+# SK Same as the notes in EDA.R
+stations <- read.csv("datasets/station.csv", header = TRUE)
+#stations <- read.csv("/Users/mausamvk/Desktop/BTC1855/Midterm/station.csv", header = TRUE)
 
 #join trips1 with stations by matching values in trips1 ="start_station_name" to stations="name"
 trip.station <- left_join(trips1, stations, by = c("start_station_name" = "name"))
@@ -20,8 +23,10 @@ trip.station <- left_join(trips1, stations, by = c("start_station_name" = "name"
 weather$date <- mdy(weather$date)
   
 #join trips_station with weather dataset using date and city
+# SK (Points taken) trip.station does not have a column named date
 trip.weather <-  left_join(trip.station, weather, by = c( "date", "city"))
 
+# SK Can not run the rest of the code because of line 27
 
 #view weather and trip combined dataset
 trip.weather

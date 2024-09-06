@@ -2,11 +2,19 @@
 ### EDA Analysis on trips.csv ###
 #################################
 
-trips <- read.csv("/Users/mausamvk/Desktop/BTC1855/Midterm/trip.csv", header = TRUE)
+# SK (Points taken) When you use a project/repo, your environment is re-defined as your project folder. 
+# To ensure reproducibility make sure that the data is included in the folder, and
+# to ensure code portability, make sure that you define file paths within the environment. 
+# I am adding the dataset to the repo
+trips <- read.csv("datasets/trip.csv", header = TRUE)
+#trips <- read.csv("/Users/mausamvk/Desktop/BTC1855/Midterm/trip.csv", header = TRUE)
 
-install.packages("tidyverse")
-install.packages("funModeling")
-install.packages("Hmisc")
+# SK  It may at times be okay to include the code installing packages but no okay to enforce 
+# re-installing packages every time a code is sourced. Best practice is to include these 
+# lines and comment them. Then ask the user to un-comment when necessary.
+#install.packages("tidyverse")
+#install.packages("funModeling")
+#install.packages("Hmisc")
 
 library(funModeling) 
 library(tidyverse) 
@@ -34,7 +42,9 @@ describe(trips)
 ### EDA Analysis on weather.csv ###
 ###################################
 
-weather <- read.csv("/Users/mausamvk/Desktop/BTC1855/Midterm/weather.csv", header = TRUE)
+# SK Same as above
+weather <- read.csv("datasets/weather.csv", header = TRUE)
+#weather <- read.csv("/Users/mausamvk/Desktop/BTC1855/Midterm/weather.csv", header = TRUE)
 summary(weather)
 
 #Step 1: number of observations and variables and view first cases
@@ -98,6 +108,10 @@ missing_maxvisibility <- weather1[(is.na(weather1$max_visibility_miles) | weathe
 #remove NA or empty values across mex_gust_speed_mph 
 weather1 <- weather1[!(is.na(weather1$max_visibility_miles) | weather1$max_visibility_miles==""), ]
 
+# SK (Points taken) The weather dataset has for 5 cities for each day of the year.
+# When you delete rows because they have NAs in some column, you delete all
+# the weather information for these days and cities. This might impact downstream analysis.
+
 #combine all removed weather values in dataframe
 removed.weather <- as.data.frame(rbind(missing_precipitation,missing_maxvisibility))
 
@@ -114,6 +128,7 @@ weather1$precipitation_inches <- as.numeric(weather1$precipitation_inches)
 
 #convert events as.factor
 weather1$events <- as.factor(weather1$events)
+# SK (Points taken) Having two levels as "rain" and "Rain" does not make sense
 levels(weather1$events)
 
 
@@ -133,6 +148,8 @@ three_mins <- trips1 %>% #filter durations less than 180 seconds
 
 cancelled_trips <- three_mins %>% #filter three_mins dataset for same start and end stations, indicating cancelled
   filter(start_station_name == end_station_name) 
+# SK (Points taken) The ask was to remove trips < 3 mins AND not looping back to the same station.
+# Your code above implements an OR instead.
 
 cancelled_trips$id #ID of all trips that start and end at same station and are less than 3 mins (180 seconds) in duration
 
@@ -142,6 +159,8 @@ trips1 <- trips1 %>% #filter durations less than 180 seconds
 
 trips1 <- trips1 %>% #filter three_mins dataset for same start and end stations, indicating cancelled
   filter(start_station_name != end_station_name) 
+# SK The ask was to remove trips < 3 mins AND not looping back to the same station.
+# Your code above implements an OR instead.
 
 sum(trips1$duration <180) #check there are no trips shorter than 3 mins
 sum(trips1$start_station_name == trips1$end_station_name) #check there are no start and end stop names that are the same
@@ -177,6 +196,8 @@ IQR <- IQR(duration) #IQR is 378
 #save outliers
 outliers <- subset(trips1, duration > (Q1 - 1.5*IQR) & duration < (Q3 + 1.5*IQR)) 
 sum(outliers$duration) #152464967 will be removed 
+# SK The code above tells me you are removing 42 thousand hours of trips. Is
+# this information relevant or useful?
 
 #remove outliers from trips1
 trips1 <- subset(trips1, duration > (Q1 - 1.5*IQR) & duration < (Q3 + 1.5*IQR))
@@ -193,4 +214,7 @@ removed.trips
 
 #export removed.trips data to csv file
 write.csv(removed.trips, "/Users/mausamvk/BTC1855_Midterm/removed_trips.csv", row.names=FALSE)
+
+# SK (Points taken) The output of the EDA for trips shows 70 unique start/end station IDs, and 
+# 74 unique start/end station names. This is a discrepancy worth looking into.
 

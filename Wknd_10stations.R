@@ -4,6 +4,7 @@
 #use days dataset; includes the day from all dates
 
 #subset days where start.wday and end.wday > 5 i.e. wekeends only, save to weekends
+# SK Again, your weekends are Friday and Saturday
 weekends <- subset(days, start.wday > 5 & end.wday > 5)
 
 summary(weekends$start.wday) #min is 6, max is 7; only weekends

@@ -19,10 +19,12 @@ days  <- days %>%
   mutate(start.wday = wday(days$start.date))
 
 #store weekday in end.wday
+# SK The default start day is Sunday=1 for wday()
 days <- days %>% 
   mutate(end.wday = wday(days$end.date))
 
 #subset days where start.wday and end.wday <6 i.e. weekdays only, save to weekdays
+# SK (Points taken) Your weekdays dataset contains days from Sunday to Thursday
 weekdays <- subset(days, start.wday < 6 & end.wday < 6)
 
 #check only values below 6 are present in start.wday and end.wday

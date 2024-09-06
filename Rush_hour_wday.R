@@ -30,6 +30,8 @@ levels(rush.hour$end_station_id) #end station ID's are not
 rush.hour$end_station_id <- as.factor(rush.hour$end_station_id) #factor end station ID
 
 #subset end station names, ids, hour
+# SK (Points taken) The following row throws an error when I run it. There are better ways to 
+# select colums from a data frame, e.g. select()
 rush.end.stations <- data.frame(rush.hour$end_station_id, rush.hour$end_station_name, rush.hour$end.hour)
 
 #groupby end stations names, and count frequencies to indicate # of trips
